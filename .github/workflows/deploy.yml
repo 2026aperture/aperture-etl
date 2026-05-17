@@ -1,0 +1,21 @@
+name: Deploy Aperture ETL
+
+on:
+  push:
+    branches:
+      - dev/1.0
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy ETL to DigitalOcean
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: root
+          key: ${{ secrets.DO_SSH_KEY }}
+          command_timeout: 30m
+          script: |
+            /opt/deploy-aperture-etl.sh
